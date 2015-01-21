@@ -1,6 +1,7 @@
 package isu.emergencyroom;
 
 import isu.emergencyroom.queue.LinkedPriorityQueue;
+import javax.swing.JOptionPane;
 
 /**
  * Emergency Room Managing Program
@@ -158,23 +159,30 @@ public class ERGUI extends javax.swing.JFrame {
 	}
 	
 	// Put in patient object
-	Patient p = new Patient(name);
+	Patient p = new Patient(name, priority);
 	
 	// Add to Queue
 	queue.enqueue(p, priority);
 	
-	txtOutput.setText(name + );
+	txtOutput.append("\n" + p.toString());
     }//GEN-LAST:event_btnScheduleActionPerformed
 
     private void btnTreatNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTreatNextActionPerformed
-        txtOutput.append(queue.dequeue().toString());
+        try {
+            txtOutput.append("\n" + queue.dequeue().toString() + " has been treated...");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "No more patients to treat");
+        }
     }//GEN-LAST:event_btnTreatNextActionPerformed
 
     private void btnTreatAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTreatAllActionPerformed
         try {
-	    queue.dequeue();
+	    while(true) {
+                txtOutput.append("\n" + queue.dequeue().toString() + " has been treated...");
+            }
 	} catch (Exception e) {
-	    
+            // Kind of hacky, but it works.
+	    JOptionPane.showMessageDialog(this, "All patients have been treated");
 	}
     }//GEN-LAST:event_btnTreatAllActionPerformed
 
