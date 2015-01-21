@@ -79,9 +79,9 @@ public class TaskManager extends javax.swing.JFrame {
 
         pnlNavigate.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        lblCurTask.setText("Current Task: 1");
+        lblCurTask.setText("Current Task: 0");
 
-        lblTotTask.setText("Total Tasks: 3");
+        lblTotTask.setText("Total Tasks: 0");
 
         btnFirst.setText("First");
         btnFirst.setMaximumSize(new java.awt.Dimension(120, 23));
@@ -130,7 +130,7 @@ public class TaskManager extends javax.swing.JFrame {
                         .addComponent(btnFirst, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPrev, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnNext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnLast, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -239,9 +239,9 @@ public class TaskManager extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlNavigate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblDesc))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(scrDesc)
@@ -355,17 +355,27 @@ public class TaskManager extends javax.swing.JFrame {
 
     /**Removes a menu item*/
     private void mnuRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRemoveActionPerformed
-        li.remove();
+        if (totalTasks == 0) {
+	    return;
+	}
+	li.next();
+	li.remove();
+	totalTasks--;
+	lblTotTask.setText("Total Tasks: " + totalTasks);   
     }//GEN-LAST:event_mnuRemoveActionPerformed
     
     /**Restores current task to screen*/
     private void mnuRestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRestoreActionPerformed
-        // TODO add your handling code here:
+	txtName.setText(((Task)li.next()).getName());
+	txtDesc.setText(((Task)li.previous()).getDesc());
     }//GEN-LAST:event_mnuRestoreActionPerformed
     
     /**Clears the screen*/
     private void mnuClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuClearActionPerformed
-        // TODO add your handling code here:
+        // Setting it to null has the same effect as double quotation marks.
+	// Looks nicer.
+	txtName.setText(null);
+	txtDesc.setText(null);
     }//GEN-LAST:event_mnuClearActionPerformed
     
     /**Shows all of the tasks*/
@@ -384,22 +394,59 @@ public class TaskManager extends javax.swing.JFrame {
 
     /**Navigates to the first task*/
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
-        // TODO add your handling code here:
+        if(currentTask == totalTasks) {
+	    return;
+	}
+	while(li.hasPrevious()) {
+	    li.previous();
+	}
+	li.next();
+	Task t=(Task)li.previous();
+	currentTask = 1;
+	lblCurTask.setText("Current Task: " +currentTask);
+	txtName.setText(t.getName());
+	txtDesc.setText(t.getDesc());
     }//GEN-LAST:event_btnFirstActionPerformed
     
     /**Navigates to the previous task*/
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-        // TODO add your handling code here:
+	if (currentTask == 1) {
+	    return;
+	}
+	currentTask--;
+	lblCurTask.setText("Current Task: " +currentTask);
+	li.previous();
+	Task t = (Task)li.next();
+	txtName.setText(t.getName());
+	txtDesc.setText(t.getDesc());
     }//GEN-LAST:event_btnPrevActionPerformed
     
     /**Navigates to the next task*/
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        // TODO add your handling code here:
+        if (currentTask == totalTasks) {
+	    return;
+	}
+	currentTask++;
+	lblCurTask.setText("Current Task: " + currentTask);
+	li.next();
+	li.next();
+	Task t =(Task)li.previous();
+	txtName.setText(t.getName());
+	txtDesc.setText(t.getDesc());
     }//GEN-LAST:event_btnNextActionPerformed
     
     /**Navigates to the last task*/
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-        // TODO add your handling code here:
+        if (currentTask == totalTasks) {
+	    return;
+	}
+	while (li.hasNext()) {
+	    li.next();
+	}
+	Task t = (Task)li.previous();
+	currentTask = totalTasks;
+	txtName.setText(t.getName());
+	txtDesc.setText(t.getDesc());
     }//GEN-LAST:event_btnLastActionPerformed
 
     
@@ -409,6 +456,11 @@ public class TaskManager extends javax.swing.JFrame {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
+	    try {
+		UIManager.setLookAndFeel("GTK+");
+	    } catch (Exception ex) {
+		
+	    }
         }
 
         /* Create and display the form */

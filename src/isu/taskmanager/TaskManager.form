@@ -121,9 +121,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="pnlNavigate" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblName" alignment="0" min="-2" pref="53" max="-2" attributes="0"/>
-                          <Component id="lblDesc" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="lblDesc" max="32767" attributes="0"/>
+                          <Component id="lblName" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -213,7 +213,7 @@
                           <Component id="btnFirst" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnPrev" max="32767" attributes="0"/>
-                          <EmptySpace pref="110" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="btnNext" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnLast" max="32767" attributes="0"/>
@@ -246,12 +246,12 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lblCurTask">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Current Task: 1"/>
+            <Property name="text" type="java.lang.String" value="Current Task: 0"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblTotTask">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Total Tasks: 3"/>
+            <Property name="text" type="java.lang.String" value="Total Tasks: 0"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnFirst">
